@@ -1,15 +1,31 @@
-# Reference only: your existing light automation already does this and does not need to change.
+# Between sunset and sunrise only: turns the light on when an alarm arrives and off again 3 minutes later.
 # Paste into: Settings > Automations & scenes > Create automation > menu (top right) > Edit in YAML.
-# Replace light.YOUR_LIGHT. Do not turn the light off when the contact opens: the relay may stay
-# closed for hours. Turn it off by hand or with a timer.
+# Replace light.YOUR_LIGHT. The off timer runs from the last ALARM and does not depend on the contact
+# opening, because the relay may stay closed for hours.
+# mode: restart - a new ALARM while the timer runs restarts the 3 minutes instead of being ignored.
+# If Home Assistant restarts during the 3 minutes, the running timer is lost and the light stays on.
 alias: "DME Alarm – light on"
-description: "Turn on the light when the pager receives an alarm."
-mode: single
+description: "Between sunset and sunrise, turn on the light when the pager receives an alarm, and off again after 3 minutes."
+mode: restart
 triggers:
   - trigger: mqtt
     topic: "homeassistant/dme_alarm"
     payload: "ALARM"
+# Only at night (between sunset and sunrise at the home location set in Home Assistant).
+# Two sun conditions joined by "or", because a single condition with after: sunset and
+# before: sunrise would need both on the same day, which never happens.
+conditions:
+  - condition: or
+    conditions:
+      - condition: sun
+        after: sunset
+        before: sunrise
 actions:
   - action: light.turn_on
+    target:
+      entity_id: light.YOUR_LIGHT
+  - delay:
+      minutes: 3
+  - action: light.turn_off
     target:
       entity_id: light.YOUR_LIGHT

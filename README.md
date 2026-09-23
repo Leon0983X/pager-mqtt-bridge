@@ -76,7 +76,7 @@ For each file in [`home_assistant/automations/`](home_assistant/automations/):
 
 | File | Purpose |
 |---|---|
-| `dme_alarm_light_on.yaml` | Turns on a light when `ALARM` arrives |
+| `dme_alarm_light_on.yaml` | Between sunset and sunrise: turns on a light when `ALARM` arrives, and off again after 3 minutes |
 | `dme_alarm_offline.yaml` | Sends a notification when the device has been offline for 2 minutes |
 | `dme_alarm_back_online.yaml` | Optional: sends a notification when it is back online |
 
@@ -92,7 +92,7 @@ The automations use the current syntax (`triggers:` / `trigger:` / `action:`). H
 than 2024.10 need `trigger:` / `platform:` / `service:` instead.
 
 > Don't make the light turn off when the contact opens. Depending on the pager, the relay can stay closed for
-> hours. Turn the light off by hand or with a timer.
+> hours. The provided automation uses a 3-minute timer instead; change the `delay` to adjust it.
 
 ### 3. Test without the Arduino (optional)
 

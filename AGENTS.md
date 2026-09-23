@@ -139,8 +139,10 @@ The firmware must support this Home Assistant setup. Document any changes to top
 importable configuration in `home_assistant/` (package with the MQTT entities, automations to paste into the UI,
 and a README with the import steps) in sync.
 
-- **Light automation:** when MQTT topic `homeassistant/dme_alarm` receives the payload `ALARM`, turn the light on.
-  Turning it off, whether automatically after X minutes or by hand, is up to the owner. It must not depend on the
+- **Light automation:** when MQTT topic `homeassistant/dme_alarm` receives the payload `ALARM`, turn the light on,
+  but only between sunset and sunrise at the home location (owner's choice; during the day nothing happens).
+  The owner chose to turn it off automatically **3 minutes** after the last `ALARM` (`mode: restart`, so a new
+  alarm restarts the timer; see `home_assistant/automations/dme_alarm_light_on.yaml`). It must not depend on the
   relay opening, because the relay may stay closed for hours.
 - **Contact state:** an MQTT `binary_sensor` on `homeassistant/dme_alarm/state` (`payload_on: ON`,
   `payload_off: OFF`) with `availability_topic: homeassistant/dme_alarm/availability`.

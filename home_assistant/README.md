@@ -7,7 +7,7 @@ Configuration for the Home Assistant side of the DME alarm forwarder. Needs a wo
 | `packages/dme_alarm.yaml` | MQTT entities: contact sensor, closure duration, boot reason | Package (step 1) |
 | `automations/dme_alarm_offline.yaml` | Notify when the device has been offline for 2 min | Paste in UI (step 2) |
 | `automations/dme_alarm_back_online.yaml` | Optional: notify when it's back after an outage | Paste in UI (step 2) |
-| `automations/dme_alarm_light_on.yaml` | Reference only: your existing light automation | Only if you rebuild it |
+| `automations/dme_alarm_light_on.yaml` | At night only: light on at `ALARM`, off again after 3 min | Paste in UI (step 2) |
 
 ## Step 1: entities (package)
 
