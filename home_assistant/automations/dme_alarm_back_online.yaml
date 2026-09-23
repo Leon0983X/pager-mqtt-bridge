@@ -1,0 +1,21 @@
+# Optional. Paste into: Settings > Automations & scenes > Create automation > menu (top right) > Edit in YAML.
+# Replace notify.mobile_app_YOUR_PHONE with your own notify action.
+# Only fires after a real outage (> 2 min), not after a Home Assistant restart.
+alias: "DME Alarm – device back online"
+description: "Notify when the DME alarm Arduino is reachable again after an outage."
+mode: single
+triggers:
+  - trigger: state
+    entity_id: binary_sensor.dme_alarm_contact
+    from: "unavailable"
+conditions:
+  - condition: template
+    value_template: >-
+      {{ trigger.to_state.state in ['on', 'off'] and
+         (now() - trigger.from_state.last_changed).total_seconds() > 120 }}
+actions:
+  - action: notify.mobile_app_YOUR_PHONE
+    data:
+      message: >-
+        DME alarm forwarder is back online
+        (restart reason: {{ states('sensor.dme_alarm_boot_reason') }}).

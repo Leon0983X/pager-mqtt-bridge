@@ -1,0 +1,33 @@
+# DME alarm forwarder (Arduino Nano RP2040 Connect) - MQTT entities.
+# Copy this file to <HA config>/packages/dme_alarm.yaml. See home_assistant/README.md.
+
+mqtt:
+  binary_sensor:
+    # ON while the pager relay is closed. "unavailable" while the Arduino is offline (LWT).
+    - name: "DME Alarm Contact"
+      unique_id: dme_alarm_contact
+      state_topic: "homeassistant/dme_alarm/state"
+      payload_on: "ON"
+      payload_off: "OFF"
+      availability_topic: "homeassistant/dme_alarm/availability"
+      payload_available: "online"
+      payload_not_available: "offline"
+      device_class: safety
+
+  sensor:
+    # How long the last closure lasted, in seconds. Published when the relay opens (answers Q1).
+    - name: "DME Alarm Closure Duration"
+      unique_id: dme_alarm_closure_duration
+      state_topic: "homeassistant/dme_alarm/duration"
+      unit_of_measurement: "s"
+      device_class: duration
+      state_class: measurement
+      availability_topic: "homeassistant/dme_alarm/availability"
+
+    # Why the Arduino last restarted: power-on-or-reset (power loss and the
+    # reset button are indistinguishable on this board), watchdog,
+    # software-reboot, ...
+    - name: "DME Alarm Boot Reason"
+      unique_id: dme_alarm_boot_reason
+      state_topic: "homeassistant/dme_alarm/boot"
+      availability_topic: "homeassistant/dme_alarm/availability"
