@@ -318,8 +318,6 @@ must never be committed. `UserConfig.cpp` includes it and copies the values (`SE
 placeholder values; copy it to `arduino_secrets.h` and fill in the real ones to build.
 
 - Never copy the real values into docs, commit messages, issues, logs, or any other output.
-- The credentials committed to git before this change remain in git history. If the repository is ever pushed
-  anywhere, rotate them.
 
 ## Known gaps and issues
 
