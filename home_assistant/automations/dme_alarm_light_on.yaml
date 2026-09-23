@@ -1,0 +1,15 @@
+# Reference only: your existing light automation already does this and does not need to change.
+# Paste into: Settings > Automations & scenes > Create automation > menu (top right) > Edit in YAML.
+# Replace light.YOUR_LIGHT. Do not turn the light off when the contact opens: the relay may stay
+# closed for hours. Turn it off by hand or with a timer.
+alias: "DME Alarm – light on"
+description: "Turn on the light when the pager receives an alarm."
+mode: single
+triggers:
+  - trigger: mqtt
+    topic: "homeassistant/dme_alarm"
+    payload: "ALARM"
+actions:
+  - action: light.turn_on
+    target:
+      entity_id: light.YOUR_LIGHT

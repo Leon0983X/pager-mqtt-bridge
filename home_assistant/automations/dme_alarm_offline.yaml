@@ -1,0 +1,17 @@
+# Paste into: Settings > Automations & scenes > Create automation > menu (top right) > Edit in YAML.
+# Replace notify.mobile_app_YOUR_PHONE with your own notify action.
+alias: "DME Alarm – device offline"
+description: "Notify when the DME alarm Arduino has been unreachable for 2 minutes."
+mode: single
+triggers:
+  - trigger: state
+    entity_id: binary_sensor.dme_alarm_contact
+    to: "unavailable"
+    for: "00:02:00"
+actions:
+  - action: notify.mobile_app_YOUR_PHONE
+    data:
+      title: "DME alarm forwarder offline"
+      message: >-
+        The pager alarm Arduino has been unreachable for 2 minutes.
+        Alarms will NOT turn on the light.
